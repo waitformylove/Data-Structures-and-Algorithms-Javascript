@@ -49,12 +49,65 @@ LinkedList.prototype.addToTail = function (value){
 	this.tail          = newTailNode;
 }
 
+LinkedList.prototype.removeHead = function() {
+	if(!this.head) 
+		return null; // empty array
+	
+	let value = this.head.value; //save value to return function
+	this.head = this.head.next; 
+	//next node of before head will become now head
+	//check exist of now head and set it now (set prev to null) .
+	//else => linked list now have only 0 elements = > this.head now = null => set this.tail = null
+	if(this.head) 
+		this.head.prev = null;
+	else
+		this.tail      = null;
+};
+
+LinkedList.prototype.removeTail = function() {
+	if(!this.tail)
+		return null; //empty array
+	
+	let value = this.tail.value;
+	this.tail = this.tail.prev;
+
+	if(this.tail)
+		this.tail.next = null;
+	else
+		this.head      = null;
+
+	return value;
+};
+
+//search a Node has a value method
+LinkedList.prototype.search = function(value) {
+	let currentNode = this.head;
+	while (currentNode){
+		if (currentNode.value == value) 
+			return currentNode;
+		else
+			currentNode = currentNode.next;
+	}
+	return null;
+};
 
 //start main
 
 var list = new LinkedList();
 list.addToHead(2);
-// list.addToHead(1);
-// list.addToTail(3);
+list.addToHead(1);
+list.addToTail(3);
+list.addToTail(4);
+list.addToTail(5);
 
+list.removeHead();
+list.removeTail();
+
+var nodeSearched;
+if( nodeSearched = list.search(5)) 
+	console.log("Find Node : ", nodeSearched);
+else
+	console.log("Not find that value in LIST");
+
+console.log("Remaining List is");
 list.print();  // Let understand circular
